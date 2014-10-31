@@ -1,0 +1,19 @@
+/web/bundles/
+/web/photo/*
+/web/sitemap.common.xml
+/web/sitemap.xml
+/web/catalog.xml
+/web/taiso_log.txt
+/app/bootstrap.php.cache
+/app/cache/*
+/app/config/parameters.yml
+/app/logs/*
+/build/
+/vendor/
+/bin/
+
+# Other
+.DS_Store
+Thumb.db
+/nbproject/*
+*.php~
