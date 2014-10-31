@@ -7,11 +7,6 @@ parameters:
     database_password:  root
 
     mailer_transport:   smtp
-    mailer_auth_mode:   login
-    mailer_user:        'redmine@ict-center.ru'
-    mailer_password:    'tktyf'
-    mailer_host:        'smtp.ht-systems.ru'
-    mailer_encryption:  ~
 
     locale: ru_RU
     secret: T3mp0rab13s3kr3t

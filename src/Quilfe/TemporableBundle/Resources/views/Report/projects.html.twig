@@ -1,0 +1,144 @@
+{#  Copyright 2014 Vitaly Bormotov <bormvit@mail.ru>
+
+    This file is part of Quilfe Temporable. 
+
+    Quilfe Temporable is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Quilfe Temporable is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with Quilfe Temporable. If not, see <http://www.gnu.org/licenses/>
+#}
+{% extends '::base.html.twig' %}
+
+{% block title %}Время по проектам &mdash; {{ parent() }}{% endblock %}
+
+{% block body %}
+    {{ include('QuilfeTemporableBundle:Main:menu.html.twig', { current: 'reports' }) }}
+    <h1>Данные {{ currentPeriodStart ? ('с ' ~ currentPeriodStart|date('d.m.Y')) : 'за всё время с убыванием' }}</h1>
+    {% if sum > 0 %}
+        {% set totalSum = max(sum, planned) %}
+        <table class="stats">
+        <thead>
+            <tr>
+                <th>Проект</th>
+                <th>Время</th>
+                <th>Процент</th>
+                <th>Ограничения</th>
+                <th>Подсказки</th>
+                <th>Задачи</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for projectData in currentPeriodData %}
+                {% set percent = (100 * projectData.time / totalSum) %}
+                {% set class = (projectData.minPercent is null or projectData.minPercent <= percent) and
+                    (projectData.maxPercent is null or percent <= projectData.maxPercent)
+                    ? 'good' : 'bad'
+                %}
+                <tr
+                    {% if projectData.actual %}
+                        class="{{ class }}"
+                    {% else %}
+                        class="non-actual"
+                    {% endif %}
+                >
+                    <td>{{ projectData.project }}</td>
+                    <td>{{ projectData.time|time }}</td>
+                    <td>{{ totalSum > 0 ? percent|number_format(1, ',') : '0'}}%</td>
+                    <td>
+                        {% if projectData.actual and not (
+                            projectData.minPercent is null and projectData.maxPercent is null
+                        ) %}
+                            {% if projectData.minPercent is not null and projectData.maxPercent is not null %}
+                                {{ projectData.minPercent }}%&mdash;{{ projectData.maxPercent }}%
+                            {% elseif projectData.minPercent is not null %}
+                                От {{ projectData.minPercent }}%
+                            {% else %}
+                                До {{ projectData.maxPercent }}%
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                    <td>{% if projectData.actual %}
+                        {% if class == 'bad' %}
+                            Нужно потратить хотя бы
+                            {% if projectData.minPercent is not null and projectData.minPercent > percent %}
+                                {{ ((projectData.minPercent * totalSum - 100 * projectData.time)
+                                    / (100 - projectData.minPercent))|time }} на этот проект.
+                            {% else %}
+                                {{ (100 * projectData.time / projectData.maxPercent - totalSum)|time }} на другие проекты.
+                            {% endif %}
+                        {% else %}
+                            {% if projectData.maxPercent is not null %}
+                                {% set thisBound = ((projectData.maxPercent * totalSum - 100 * projectData.time)
+                                    / (100 - projectData.maxPercent)) %}
+                                {% if thisBound > 4*60 %}
+                                    {% set thisBound = null %}
+                                {% endif %}
+                            {% else %}
+                                {% set thisBound = null %}
+                            {% endif %}
+                            {% if projectData.minPercent is not null %}
+                                {% set otherBound = (100 * projectData.time / projectData.minPercent - totalSum) %}
+                                {% if otherBound > 4*60 %}
+                                    {% set otherBound = null %}
+                                {% endif %}
+                            {% else %}
+                                {% set otherBound = null %}
+                            {% endif %}
+                            {% if thisBound or otherBound %}
+                            Можно потратить
+                                {% if thisBound %}
+                                    {{ thisBound|time }} на этот проект
+                                {% endif %}
+                                {% if thisBound and otherBound %}или{% endif %}
+                                {% if otherBound %}
+                                    {{ otherBound|time }} на другие проекты
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}</td>
+                    <td>
+                        {%- if projectData.tasks.opened -%}
+                            Открытых задач: {{ projectData.tasks.opened }}
+                            {%- if projectData.tasks.red -%}
+                                , из них важных {{ projectData.tasks.red }}
+                            {%- endif -%}
+                        {%- endif -%}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+        <h2>Всего {{ sum|time }}</h2>
+        {% if planned %}
+            <h3 class="{{ planned - sum > 10 ? 'bad' : 'good'}}">Планировалось {{ planned|time }}</h3>
+        {% endif %}
+        {% if todayTime %}
+            <h3>Сегодня {{ todayTime|time }}</h3>
+        {% endif %}
+    {% else %}
+        <h2>Работа не отмечена.</h2>
+    {% endif %}
+    <h4>Другие отчеты:</h4>
+    <p>
+        {% for option in reports %}
+            {% if not loop.first %}
+                &bull;
+            {% endif %}
+            {% if option.type is not same as (currentType) %}
+                <a href="{{ path('reports', { 'type': option.type }) }}">
+                    {{ option.name }}
+                </a>
+            {% else %}
+                <b>{{ option.name }}</b>
+            {% endif %}
+        {% endfor %}
+    </p>
+{% endblock %}

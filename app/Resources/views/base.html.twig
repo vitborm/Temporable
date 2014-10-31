@@ -2,12 +2,15 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}{% endblock %}</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+        <title>{% block title %}Quilfe Temporable{% endblock %}</title>
+        <script src="{{ asset('js/jquery.min.js') }}"></script>
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/bootstrap-theme.min.css') }}">
+        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <script src="{{ asset('js/script.js') }}"></script>
     </head>
-    <body>
+    <body class="{% block body_classes %}{% endblock %}">
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>

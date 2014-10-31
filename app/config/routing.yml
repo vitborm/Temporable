@@ -1,3 +1,26 @@
-main:
+quilfe_temporable_bundle:
     resource: "@QuilfeTemporableBundle/Resources/config/routing.yml"
     prefix:   /
+
+admin:
+    resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
+    prefix: /admin
+
+_sonata_admin:
+    resource: .
+    type: sonata_admin
+    prefix: /admin
+
+sonata_admin_dashboard:
+    pattern: /admin/dashboard
+    defaults: { _controller: SonataAdminBundle:Core:dashboard }
+
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /resetting

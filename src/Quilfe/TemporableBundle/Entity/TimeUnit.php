@@ -1,5 +1,22 @@
 <?php
-
+/**
+ *  Copyright 2014 Vitaly Bormotov <bormvit@mail.ru>
+ *
+ *  This file is part of Quilfe Temporable.
+ *
+ *  Quilfe Temporable is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Quilfe Temporable is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with Quilfe Temporable. If not, see <http://www.gnu.org/licenses/>.
+**/
 namespace Quilfe\TemporableBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -8,7 +25,9 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * Quilfe\TemporableBundle\Entity\TimeUnit
  *
- * @ORM\Table(name="time_unit")
+ * @ORM\Table(
+ *     name="time_unit",
+ *     indexes={@ORM\Index(name="time_unit_date_idx", columns={"date"})})
  * @ORM\Entity(repositoryClass="Quilfe\TemporableBundle\Entity\Repository\TimeUnitRepository")
  */
 class TimeUnit
@@ -38,19 +57,36 @@ class TimeUnit
     protected $project;
 
     /**
-     * @var Period
+     * @var User
      *
-     * @ORM\ManyToOne(targetEntity="Period", inversedBy="timeUnits")
-     * @ORM\JoinColumn(name="period_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="timeUnits")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
      */
-    protected $period;
+    protected $user;
 
     /**
+     * Time in minutes
+     *
      * @var integer $time
      *
      * @ORM\Column(name="time", type="integer", nullable=false)
      */
     protected $time;
+
+    /**
+     * @var \DateTime $date
+     *
+     * @ORM\Column(name="date", type="datetime", nullable=false)
+     */
+    protected $date;
+
+    public function __construct()
+    {
+        $now = new \DateTime();
+        $now->setTime(0, 0, 0);
+
+        $this->date = $now; // only date
+    }
 
     /**
      * Get id
@@ -135,26 +171,49 @@ class TimeUnit
     }
 
     /**
-     * Set period
+     * Set user
      *
-     * @param Period $period
+     * @param User $user
      *
      * @return TimeUnit
      */
-    public function setPeriod(Period $period = null)
+    public function setUser(User $user = null)
     {
-        $this->period = $period;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * Get period
+     * Get user
      *
-     * @return Period
+     * @return User
      */
-    public function getPeriod()
+    public function getUser()
     {
-        return $this->period;
+        return $this->user;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set date
+     *
+	 * @param  \DateTime $date
+     * @return TimeUnit
+     */
+    public function setDate(\DateTime $date)
+    {
+        $this->date = $date;
+
+        return $this;
     }
 }

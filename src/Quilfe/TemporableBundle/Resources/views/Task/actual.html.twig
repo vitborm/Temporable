@@ -1,0 +1,35 @@
+{#  Copyright 2014 Vitaly Bormotov <bormvit@mail.ru>
+
+    This file is part of Quilfe Temporable. 
+
+    Quilfe Temporable is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Quilfe Temporable is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with Quilfe Temporable. If not, see <http://www.gnu.org/licenses/>
+#}
+{% extends '::base.html.twig' %}
+
+{% block title %}Актуальные задачи &mdash; {{ parent() }}{% endblock %}
+
+{% block body %}
+    {{ include('QuilfeTemporableBundle:Main:menu.html.twig', { current: 'actual_tasks' }) }}
+    <h1>Актуальные задачи ({{ tasksCount}})</h1>
+
+    <div class="task-list-container">
+        {% for projectName, tasks in projectTasks %}
+            <h5>{{ projectName }} ({{ tasks|length }})</h5>
+            {{ include('QuilfeTemporableBundle:Task:list.html.twig') }}
+            {% if not loop.last %}
+                <hr />
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

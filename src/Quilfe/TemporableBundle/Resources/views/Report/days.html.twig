@@ -1,0 +1,51 @@
+{#  Copyright 2014 Vitaly Bormotov <bormvit@mail.ru>
+
+    This file is part of Quilfe Temporable. 
+
+    Quilfe Temporable is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Quilfe Temporable is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with Quilfe Temporable. If not, see <http://www.gnu.org/licenses/>
+#}
+{% extends '::base.html.twig' %}
+
+{% block title %}Время по дням &mdash; {{ parent() }}{% endblock %}
+
+{% block body %}
+    {{ include('QuilfeTemporableBundle:Main:menu.html.twig', { current: 'days' }) }}
+    <h1>Данные с {{ currentPeriodStart|date('d.m.Y') }}</h1>
+    {% if sum > 0 %}
+        <table class="stats">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Затраченное время</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for day in days %}
+                <tr
+                    {% if not day.isToday %}
+                        class="{{ day.time >= avg ? 'good' : 'bad' }}"
+                    {% endif %}
+                >
+                    <td>{{ day.isToday ? 'Сегодня' : day.date|date('d.m.Y') }}</td>
+                    <td>{{ day.time|time }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+        <h2>Всего {{ sum|time }} (без учета сегодняшнего дня)</h2>
+        <h3>В среднем {{ avg|time }} в день</h3>
+    {% else %}
+        <h2>Работа не отмечена.</h2>
+    {% endif %}
+{% endblock %}

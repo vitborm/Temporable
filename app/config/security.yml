@@ -1,21 +1,41 @@
 security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    role_hierarchy:
+        ROLE_SUPER_ADMIN: ROLE_USER
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username_email
+
     firewalls:
+        login_firewall:
+            pattern:    ^/login$
+            anonymous:  ~
+        resetting_firewall:
+            pattern:    ^/resetting
+            anonymous:  ~
+        assets:
+            pattern:    ^/(css|js)/compiled
+            anonymous:  ~
         main:
             pattern: ^/
             form_login:
-                provider:             crm_site_user_provider
-                csrf_provider:        form.csrf_provider
-                default_target_path:  /
-                always_use_default_target_path: false
-            logout:
-                target:   /
-            anonymous:    true
-        dev:
-            pattern:  ^/(_(profiler|wdt)|css|images|js)/
-            security: false
+                provider: fos_userbundle
+                csrf_provider: form.csrf_provider
+                use_referer: true
+            logout: true
+            remember_me:
+                key:      quilfe_t_slRxf5Ecsrf7EdadErQ
+                path:     /
+                domain:   ~
+                lifetime: 9000000
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(css|js)/compiled/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/profile, role: ROLE_USER }
+        - { path: ^/admin, role: ROLE_USER }

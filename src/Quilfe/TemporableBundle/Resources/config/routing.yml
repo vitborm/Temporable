@@ -1,3 +1,56 @@
 homepage:
     pattern:  /
     defaults: { _controller: QuilfeTemporableBundle:Main:index }
+
+start_work:
+    pattern:  /work/start/
+    defaults: { _controller: QuilfeTemporableBundle:Main:startWork }
+    methods: POST
+
+stop_work:
+    pattern:  /work/stop/
+    defaults: { _controller: QuilfeTemporableBundle:Main:stopWork }
+    methods: POST
+
+add_project_time:
+    pattern:  /project/time/add/
+    defaults: { _controller: QuilfeTemporableBundle:Main:addTime }
+    methods: POST
+
+mark_project_time:
+    pattern:  /project/time/mark/
+    defaults: { _controller: QuilfeTemporableBundle:Main:markTime }
+    methods: POST
+
+reports:
+    pattern:  /projects/
+    defaults: { _controller: QuilfeTemporableBundle:Report:projects }
+
+days:
+    pattern:  /days/
+    defaults: { _controller: QuilfeTemporableBundle:Report:days }
+
+task_add:
+    pattern: /project/{project}/task/add/
+    defaults: { _controller: QuilfeTemporableBundle:Task:add }
+    methods: POST
+    requirements:
+        project: \d+
+
+task_mark_done:
+    pattern: /tasks/{task}/accomplish
+    defaults: { _controller: QuilfeTemporableBundle:Task:markDone }
+    methods: POST
+    requirements:
+        task: \d+
+
+task_change_red:
+    pattern: /tasks/{task}/redness
+    defaults: { _controller: QuilfeTemporableBundle:Task:changeRed }
+    methods: POST
+    requirements:
+        task: \d+
+
+actual_tasks:
+    pattern:  /tasks/actual/
+    defaults: { _controller: QuilfeTemporableBundle:Task:actual }

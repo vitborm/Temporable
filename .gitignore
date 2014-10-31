@@ -1,9 +1,5 @@
 /web/bundles/
-/web/photo/*
-/web/sitemap.common.xml
 /web/sitemap.xml
-/web/catalog.xml
-/web/taiso_log.txt
 /app/bootstrap.php.cache
 /app/cache/*
 /app/config/parameters.yml

@@ -1,0 +1,55 @@
+services:
+    quilfe.temporable.sonata_admin.project:
+        class: Quilfe\TemporableBundle\Admin\ProjectAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "  ", label: "Проекты" }
+        arguments:
+            - ~
+            - Quilfe\TemporableBundle\Entity\Project
+            - SonataAdminBundle:CRUD
+#    quilfe.temporable.sonata_admin.period:
+#        class: Quilfe\TemporableBundle\Admin\PeriodAdmin
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, group: "  ", label: "Периоды" }
+#        arguments:
+#            - ~
+#            - Quilfe\TemporableBundle\Entity\Period
+#            - SonataAdminBundle:CRUD
+    quilfe.temporable.sonata_admin.time_unit:
+        class: Quilfe\TemporableBundle\Admin\TimeUnitAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "  ", label: "Время" }
+        arguments:
+            - ~
+            - Quilfe\TemporableBundle\Entity\TimeUnit
+            - SonataAdminBundle:CRUD
+    quilfe.temporable.sonata_admin.task:
+        class: Quilfe\TemporableBundle\Admin\TaskAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "  ", label: "Задачи" }
+        arguments:
+            - ~
+            - Quilfe\TemporableBundle\Entity\Task
+            - SonataAdminBundle:CRUD
+    quilfe.temporable.sonata_admin.routine:
+        class: Quilfe\TemporableBundle\Admin\RoutineAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "  ", label: "Рутины" }
+        arguments:
+            - ~
+            - Quilfe\TemporableBundle\Entity\Routine
+            - SonataAdminBundle:CRUD
+    quilfe.temporable.twig_extension:
+        class: Quilfe\TemporableBundle\Twig\TemporableExtension
+        tags:
+            - { name: twig.extension }
+    #quilfe.temporable.lifecycle:
+    #    class: Quilfe\TemporableBundle\Listener\Lifecycle
+    #    arguments:  ['@service_container']
+    #    tags:
+    #        - { name: doctrine.event_listener, event: postFlush }
+    #       - { name: doctrine.event_listener, event: preUpdate }
+    #       #- { name: doctrine.event_listener, event: prePersist }
+    #       #- { name: doctrine.event_listener, event: postPersist }
+    #       #- { name: doctrine.event_listener, event: postUpdate }
+    #       #- { name: doctrine.event_listener, event: preRemove }

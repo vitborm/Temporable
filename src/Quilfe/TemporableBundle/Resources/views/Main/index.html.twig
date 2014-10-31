@@ -1,7 +1,73 @@
+{#  Copyright 2014 Vitaly Bormotov <bormvit@mail.ru>
+
+    This file is part of Quilfe Temporable. 
+
+    Quilfe Temporable is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Quilfe Temporable is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with Quilfe Temporable. If not, see <http://www.gnu.org/licenses/>
+#}
 {% extends '::base.html.twig' %}
 
-{% block title %}Title{% endblock %}
+{% block title %}Отслеживание времени &mdash; {{ parent() }}{% endblock %}
+
+{% block body_classes %}{{ parent() }}{{ workStartAt ? ' dark' : '' }}{% endblock %}
 
 {% block body %}
-Text
+    {{ include('QuilfeTemporableBundle:Main:menu.html.twig', { current: 'homepage' }) }}
+    <div class="time-status">
+        {% if workStartAt %}
+            Работа начата в {{ workStartAt|date('H:i, d.m.Y') }}.
+            <span class="action-link" id="stop-work" data-url="{{ path('stop_work') }}">Окончить</span>.
+        {% else %}
+            Нет активного блока работы.
+            <span class="action-link" id="start-work" data-url="{{ path('start_work') }}">Начать</span>.
+        {% endif %}
+    </div>
+    <div class="projects">
+        {% for project in projects %}
+            <div class="project {{ project.actual ? '' : 'non-actual' }}" data-project="{{ project.id }}">
+                <div class="project-title {{ project|hasRedTasks ? 'project-red' }}">
+                    <span class="task-opener current open-tasks">+</span>
+                    <span class="task-opener close-tasks">&minus;</span>
+                    {{ project.name }}
+                </div>
+                {% if project.actual %}
+                <div class="project-time">
+                    {% if workStartAt %}
+                        <input type="button" value="Время!" data-url="{{ path('mark_project_time') }}" />
+                    {% else %}
+                        <input
+                            type="text"
+                            title="Введите количество часов или время в формате ЧЧ:ММ и нажмите Enter"
+                            placeholder="ЧЧ или ЧЧ:ММ"
+                            data-url="{{ path('add_project_time') }}"
+                        />
+                    {% endif %}
+                </div>
+                {% endif %}
+                <div class="project-message"></div>
+            </div>
+            <div class="project-tasks task-list-container" style="display: none;">
+                <div class="task-adder task">
+                    <input type="text" placeholder="Новая задача" class="task-name" />
+                    <input
+                        type="button"
+                        value="Создать"
+                        class="task-add task-button"
+                        data-url="{{ path('task_add', { project: project.id }) }}"
+                    />
+                </div>
+                {{ render(controller('QuilfeTemporableBundle:Task:projectTasks', { project: project })) }}
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
