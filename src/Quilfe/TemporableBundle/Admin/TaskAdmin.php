@@ -34,7 +34,7 @@ class TaskAdmin extends Admin
             ->add('name', null, ['label' => 'Текст'])
             ->add('project', null, ['label' => 'Проект'])
             ->add('user', null, ['label' => 'Пользователь'])
-            ->add('changedAt', null, ['label' => 'Изменена'])
+            ->add('createdAt', null, ['label' => 'Создана'])
             ->add('done', null, ['label' => 'Выполнена?'])
             ->add('red', null, ['label' => 'Высокий приоритет?'])
         ;
@@ -69,7 +69,7 @@ class TaskAdmin extends Admin
             ->add('name', null, ['label' => 'Текст'])
             ->add('project', null, ['label' => 'Проект'])
             ->add('user', null, ['label' => 'Пользователь'])
-            ->add('changedAt', null, ['label' => 'Изменена'])
+            ->add('createdAt', null, ['label' => 'Создана'])
             ->add('done', null, ['label' => 'Выполнена?'])
             ->add('red', null, ['label' => 'Высокий приоритет?'])
         ;

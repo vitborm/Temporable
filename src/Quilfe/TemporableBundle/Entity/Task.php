@@ -83,15 +83,15 @@ class Task
     protected $red = false;
 
     /**
-     * @var \DateTime $changedAt
+     * @var \DateTime $createdAt
      *
-     * @ORM\Column(name="changed_at", type="datetime", nullable=false)
+     * @ORM\Column(name="created_at", type="datetime", nullable=false)
      */
-    protected $changedAt;
+    protected $createdAt;
 
     public function __construct()
     {
-        $this->changedAt =  new \DateTime();
+        $this->createdAt =  new \DateTime();
         $this->done = false;
         $this->red = false;
     }
@@ -179,24 +179,24 @@ class Task
     }
 
     /**
-     * Get changedAt
+     * Get createdAt
      *
      * @return \DateTime
      */
-    public function getChangedAt()
+    public function getCreatedAt()
     {
-        return $this->changedAt;
+        return $this->createdAt;
     }
 
     /**
-     * Set changedAt
+     * Set createdAt
      *
-	 * @param  \DateTime $changedAt
+     * @param  \DateTime $createdAt
      * @return Task
      */
-    public function setChangedAt(\DateTime $changedAt)
+    public function setCreatedAt(\DateTime $createdAt)
     {
-        $this->changedAt = $changedAt;
+        $this->createdAt = $createdAt;
 
         return $this;
     }

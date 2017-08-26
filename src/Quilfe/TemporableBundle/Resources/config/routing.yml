@@ -26,6 +26,10 @@ reports:
     pattern:  /projects/
     defaults: { _controller: QuilfeTemporableBundle:Report:projects }
 
+total_table:
+    pattern:  /total/
+    defaults: { _controller: QuilfeTemporableBundle:Report:totalTable }
+
 days:
     pattern:  /days/
     defaults: { _controller: QuilfeTemporableBundle:Report:days }

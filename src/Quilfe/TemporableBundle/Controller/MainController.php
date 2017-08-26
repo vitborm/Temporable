@@ -52,7 +52,7 @@ class MainController extends Controller
                     ->setProject($routine->getProject())
                     ->setUser($this->getUser())
                     ->setRed(true)
-                    ->setChangedAt($toBeExecutedAt);
+                    ->setCreatedAt($toBeExecutedAt);
                 ;
 
                 $routine->setLastExecuted($toBeExecutedAt);

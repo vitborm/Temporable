@@ -76,14 +76,14 @@ ul.menu {
     background-color: #eeeeee;
     border: 1px solid #999999;
     border-radius: 10px;
-    font-size: 12px;
+    font-size: 11px;
     z-index: 500;
 }
 body.dark ul.menu {
     background-color: #444444;
 }
 ul.menu > li {
-    padding: 0.2em 0;
+    padding: 0.15em 0;
 }
 ul.menu > li.active {
     opacity: 0.8;

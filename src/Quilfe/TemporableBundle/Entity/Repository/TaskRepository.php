@@ -36,7 +36,7 @@ class TaskRepository extends EntityRepository
             $qb->addOrderBy('t.red', 'DESC');
         }
 
-        $qb->addOrderBy('t.changedAt', 'DESC')
+        $qb->addOrderBy('t.createdAt', 'DESC')
             ->setParameter('project', $project)
             ->setParameter('completed', $completed)
             ->setFirstResult($offset)
@@ -70,7 +70,7 @@ class TaskRepository extends EntityRepository
     public function clearOld($period = '3M')
     {
         $this->getEntityManager()
-            ->createQuery('DELETE FROM QuilfeTemporableBundle:Task t WHERE t.changedAt < :boundary AND t.done = true')
+            ->createQuery('DELETE FROM QuilfeTemporableBundle:Task t WHERE t.createdAt < :boundary AND t.done = true')
             ->setParameter('boundary', (new \DateTime())->sub(new \DateInterval('P' . $period)))
             ->execute()
         ;

@@ -20,8 +20,8 @@
         <span
             class="task-name {{ task.done ? 'task-done' : (task.red ? 'task-red') }}"
             data-red-url="{{ path('task_change_red', { task: task.id }) }}"
-        >{{ task.name }} <span class="task-date" title="прошло дней: {{ date('now').diff(task.changedAt).days }}">{{
-            task.changedAt|date('d.m.Y')
+        >{{ task.name }} <span class="task-date" title="прошло дней: {{ date('now').diff(task.createdAt).days }}">{{
+            task.createdAt|date('d.m.Y')
         }}</span></span>
         {% if not task.done %}
             <input

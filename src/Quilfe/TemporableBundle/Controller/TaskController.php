@@ -48,7 +48,7 @@ class TaskController extends Controller
 
         $tasks = $em->getRepository(Task::class)->findBy(
             ['red' => true, 'done' => false],
-            ['project' => 'ASC', 'changedAt' => 'DESC']
+            ['project' => 'ASC', 'createdAt' => 'DESC']
         );
 
         $projectTasks = [];
@@ -100,8 +100,7 @@ class TaskController extends Controller
             throw $this->createAccessDeniedException();
         }
 
-        $task->setDone(true)
-            ->setChangedAt(new \DateTime());
+        $task->setDone(true);
 
         $em->persist($task);
         $em->flush();
@@ -120,8 +119,7 @@ class TaskController extends Controller
             throw $this->createAccessDeniedException();
         }
 
-        $task->setRed($request->get('make') == 'red')
-            ->setChangedAt(new \DateTime());
+        $task->setRed($request->get('make') == 'red');
 
         $em->persist($task);
         $em->flush();

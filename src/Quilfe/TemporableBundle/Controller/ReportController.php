@@ -119,6 +119,19 @@ class ReportController extends Controller
     /**
      * @Template()
      */
+    public function totalTableAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $distribution = $em->getRepository('QuilfeTemporableBundle:Project')->getTotalDistribution();
+
+        return [
+            'distribution' => $distribution,
+        ];
+    }
+
+    /**
+     * @Template()
+     */
     public function daysAction()
     {
         $em = $this->getDoctrine()->getManager();

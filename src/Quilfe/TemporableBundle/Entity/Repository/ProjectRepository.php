@@ -99,4 +99,37 @@ class ProjectRepository extends EntityRepository
             ->getResult()
         ;
     }
+
+    public function getTotalDistribution($daysAgo = 10)
+    {
+        $dateFrom = new \DateTime('-' . $daysAgo . ' days');
+
+        $qb = $this->createQueryBuilder('pr');
+        $q = $qb->select(
+            'pr.name as project,
+            t.date AS date,
+            SUM(t.time) as time'
+        )
+            ->join('pr.timeUnits', 't')
+            ->andWhere('t.date >= :start')
+            ->addGroupBy('pr.name')
+            ->addGroupBy('t.date')
+            ->addOrderBy('t.date', 'ASC')
+            ->addOrderBy('pr.id', 'ASC')
+            ->setParameter('start', $dateFrom)
+        ;
+        $arrayResult = $q->getQuery()->getResult();
+        $result = [
+            'headers' => [],
+            'data' => [],
+        ];
+
+        foreach ($arrayResult as $element) {
+            $name = $element['project'];
+            $result['headers'][$name] = $name;
+            $result['data'][$element['date']->format('d.m.Y')][$name] = $element['time'];
+        }
+
+        return $result;
+    }
 }
