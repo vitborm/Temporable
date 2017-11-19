@@ -100,7 +100,7 @@ class ProjectRepository extends EntityRepository
         ;
     }
 
-    public function getTotalDistribution($daysAgo = 10)
+    public function getTotalDistribution($daysAgo = 15)
     {
         $dateFrom = new \DateTime('-' . $daysAgo . ' days');
 

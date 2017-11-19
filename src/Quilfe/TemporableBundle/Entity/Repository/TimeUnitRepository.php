@@ -50,7 +50,7 @@ class TimeUnitRepository extends EntityRepository
                     THEN
                         SUM(tu.time)
                     ELSE
-                        IF(SUM(tu.time) > 200, 60 * (" . User::HOURS_PER_DAY . "), SUM(tu.time))
+                        IF(SUM(tu.time) > 15, 60 * (" . User::HOURS_PER_DAY . "), SUM(tu.time))
                             * exp(datediff(tu.date, now()) / 13)
                     END AS time
                 FROM
@@ -105,7 +105,7 @@ class TimeUnitRepository extends EntityRepository
                 GROUP BY
                     tu.date
                 HAVING
-                    SUM(tu.time) > 200 OR tu.date >= :now
+                    SUM(tu.time) > 15 OR tu.date >= :now
             ) tug
             ",
             $rsm

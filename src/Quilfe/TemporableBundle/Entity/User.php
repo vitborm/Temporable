@@ -37,7 +37,7 @@ class User extends BaseUser
 {
     const DEFAULT_PERIOD_LENGTH = 16; // days
     const DAYS_RATIO = 0.5;
-    const HOURS_PER_DAY = 6.5;
+    const HOURS_PER_DAY = 5.5;
 
     /**
      * @var integer $id
