@@ -169,6 +169,7 @@ class MainController extends Controller
             'status' => 'ok',
             'time' => $this->get('quilfe.temporable.twig_extension')
                 ->timeFilter($difference),
+            'currentTime' => $now->format('H:i, d.m.Y'),
         ]);
     }
 }

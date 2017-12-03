@@ -25,7 +25,7 @@
     {{ include('QuilfeTemporableBundle:Main:menu.html.twig', { current: 'homepage' }) }}
     <div class="time-status">
         {% if workStartAt %}
-            Работа начата в {{ workStartAt|date('H:i, d.m.Y') }}.
+            Работа начата в <span class="work-start-at">{{ workStartAt|date('H:i, d.m.Y') }}</span>.
             <span class="action-link" id="stop-work" data-url="{{ path('stop_work') }}">Окончить</span>.
         {% else %}
             Нет активного блока работы.

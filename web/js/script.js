@@ -79,6 +79,7 @@ $(function() {
                 if (data.status == 'ok') {
                     projectRowMessage(input, 'Отмечено время ' + data.time, 'good');
                     input.removeAttr('disabled');
+                    $('.work-start-at').text(data.currentTime);
                 } else {
                     projectRowMessage(input, data.status, 'bad');
                     input.removeAttr('disabled');
